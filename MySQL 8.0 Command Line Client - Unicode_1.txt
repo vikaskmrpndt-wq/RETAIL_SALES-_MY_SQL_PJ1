@@ -75,6 +75,11 @@ mysql> select * from RETAIL_SERVICE;
 +-----------------+------------+-----------+-------------+--------+------+-------------+---------+----------------+------+------------+
 10 rows in set (0.00 sec)
 
+
+
+1) Find all unique product categories available in the table:
+
+
 mysql> select distinct category from RETAIL_SERVICE;
 +-------------+
 | category    |
@@ -84,6 +89,13 @@ mysql> select distinct category from RETAIL_SERVICE;
 | Electronics |
 +-------------+
 3 rows in set (0.02 sec)
+
+
+
+2) Retrieve all sales made on 2022-11-05:
+
+
+
 mysql>  select * from RETAIL_SERVICE where sale_date = "2022-11-05";
 +-----------------+------------+-----------+-------------+--------+------+----------+---------+----------------+------+------------+
 | transactions_id | sale_date  | sale_time | customer_id | gender | age  | category | quantiy | price_per_unit | cogs | total_sale |
@@ -91,6 +103,12 @@ mysql>  select * from RETAIL_SERVICE where sale_date = "2022-11-05";
 |             180 | 2022-11-05 | 10:47:00  |         117 | Male   |   41 | Clothing |       3 |            300 |  129 |        900 |
 +-----------------+------------+-----------+-------------+--------+------+----------+---------+----------------+------+------------+
 1 row in set (0.04 sec)
+
+
+
+3)Find the total quantity sold in the Clothing category:
+
+
 
 mysql>  select category,sum(quantiy) from RETAIL_SERVICE where category = "clothing";
 +----------+--------------+
@@ -100,6 +118,12 @@ mysql>  select category,sum(quantiy) from RETAIL_SERVICE where category = "cloth
 +----------+--------------+
 1 row in set (0.02 sec)
 
+
+
+4) Retrieve all Clothing category transactions where quantity is greater than or equal to 4:
+
+
+
 mysql> select * from  RETAIL_SERVICE where category = "clothing" and quantiy >= 4;
 +-----------------+------------+-----------+-------------+--------+------+----------+---------+----------------+------+------------+
 | transactions_id | sale_date  | sale_time | customer_id | gender | age  | category | quantiy | price_per_unit | cogs | total_sale |
@@ -108,6 +132,13 @@ mysql> select * from  RETAIL_SERVICE where category = "clothing" and quantiy >= 
 |            1100 | 2022-05-16 | 10:23:00  |          81 | Female |   18 | Clothing |       4 |            300 |  144 |       1200 |
 +-----------------+------------+-----------+-------------+--------+------+----------+---------+----------------+------+------------+
 2 rows in set (0.02 sec)
+
+
+
+5) Calculate total sales for each category:
+
+
+
 
 mysql> select category,sum(total_sale) as net_sale from RETAIL_SERVICE group by 1;
 +-------------+----------+
@@ -119,6 +150,12 @@ mysql> select category,sum(total_sale) as net_sale from RETAIL_SERVICE group by 
 +-------------+----------+
 3 rows in set (0.03 sec)
 
+
+
+6) Find total sales and total number of orders for each category:
+
+
+
 mysql>  select category,sum(total_sale) as net_sale,count(*) as total_orders from RETAIL_SERVICE group by 1;
 +-------------+----------+--------------+
 | category    | net_sale | total_orders |
@@ -128,6 +165,12 @@ mysql>  select category,sum(total_sale) as net_sale,count(*) as total_orders fro
 | Electronics |      200 |            1 |
 +-------------+----------+--------------+
 3 rows in set (0.00 sec)
+
+
+
+7) Display the ages of all customers:
+
+
 
 mysql> select age from  RETAIL_SERVICE;
 +------+
@@ -145,6 +188,13 @@ mysql> select age from  RETAIL_SERVICE;
 |   46 |
 +------+
 10 rows in set (0.00 sec)
+
+
+
+9) Retrieve all records where the category is Beauty: 
+
+
+
 mysql> select * from RETAIL_SERVICE where category = "Beauty";
 +-----------------+------------+-----------+-------------+--------+------+----------+---------+----------------+------+------------+
 | transactions_id | sale_date  | sale_time | customer_id | gender | age  | category | quantiy | price_per_unit | cogs | total_sale |
@@ -156,6 +206,8 @@ mysql> select * from RETAIL_SERVICE where category = "Beauty";
 +-----------------+------------+-----------+-------------+--------+------+----------+---------+----------------+------+------------+
 4 rows in set (0.00 sec)
 
+10) Find the average age of customers who purchased Beauty products:
+
 mysql>  select AVG(age) as avg from RETAIL_SERVICE where category = "Beauty";
 +---------+
 | avg     |
@@ -163,6 +215,12 @@ mysql>  select AVG(age) as avg from RETAIL_SERVICE where category = "Beauty";
 | 36.2500 |
 +---------+
 1 row in set (0.00 sec)
+
+
+
+11) Find all transactions where total sale amount is greater than 1000:
+
+
 
 mysql>  select * from RETAIL_SERVICE where total_sale > 1000;
 +-----------------+------------+-----------+-------------+--------+------+----------+---------+----------------+------+------------+
@@ -174,6 +232,11 @@ mysql>  select * from RETAIL_SERVICE where total_sale > 1000;
 |            1522 | 2022-11-14 | 08:35:00  |          75 | Male   |   26 | Beauty   |       3 |            500 |  235 |       1500 |
 +-----------------+------------+-----------+-------------+--------+------+----------+---------+----------------+------+------------+
 4 rows in set (0.02 sec)
+
+
+12) Count the number of transactions based on category and gender:
+
+
 
 mysql> select category, gender , count(*) as total_trans from RETAIL_SERVICE group by category,gender;
 +-------------+--------+-------------+
@@ -187,6 +250,12 @@ mysql> select category, gender , count(*) as total_trans from RETAIL_SERVICE gro
 +-------------+--------+-------------+
 5 rows in set (0.00 sec)
 
+
+
+13) Count transactions by category and gender and sort by category name:
+
+
+
 mysql> select category, gender , count(*) as total_trans from RETAIL_SERVICE group by category,gender order by 1;
 +-------------+--------+-------------+
 | category    | gender | total_trans |
@@ -198,6 +267,12 @@ mysql> select category, gender , count(*) as total_trans from RETAIL_SERVICE gro
 | Electronics | Male   |           1 |
 +-------------+--------+-------------+
 5 rows in set (0.02 sec)
+
+
+
+14) Find total sales generated by each customer and sort in descending order:
+
+
 
 mysql> select customer_id,sum(total_sale) as total_sales from RETAIL_SERVICE group by 1 order by 2 desc;
 +-------------+-------------+
@@ -216,6 +291,10 @@ mysql> select customer_id,sum(total_sale) as total_sales from RETAIL_SERVICE gro
 +-------------+-------------+
 10 rows in set (0.00 sec)
 
+
+15) Display category and customer ID from the table:
+
+
 mysql> select category,customer_id from RETAIL_SERVICE;
 +-------------+-------------+
 | category    | customer_id |
@@ -233,6 +312,10 @@ mysql> select category,customer_id from RETAIL_SERVICE;
 +-------------+-------------+
 10 rows in set (0.02 sec)
 
+
+16) Count the number of unique customers in each category:
+
+
 mysql> select category,COUNT(DISTINCT customer_id) from RETAIL_SERVICE group by category;
 +-------------+-----------------------------+
 | category    | COUNT(DISTINCT customer_id) |
@@ -243,6 +326,10 @@ mysql> select category,COUNT(DISTINCT customer_id) from RETAIL_SERVICE group by 
 +-------------+-----------------------------+
 3 rows in set (0.02 sec)
 
+
+17) Categorize sales into Morning, Afternoon, and Evening shifts based on sale time:
+
+
 mysql> select category,COUNT(DISTINCT customer_id) as unique_customer from RETAIL_SERVICE group by category;
 +-------------+-----------------+
 | category    | unique_customer |
@@ -252,6 +339,11 @@ mysql> select category,COUNT(DISTINCT customer_id) as unique_customer from RETAI
 | Electronics |               1 |
 +-------------+-----------------+
 3 rows in set (0.00 sec)
+
+
+18) Extract the current hour from the system time:
+
+
 
 mysql> SELECT *,
     ->     CASE
